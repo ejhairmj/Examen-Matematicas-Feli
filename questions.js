@@ -23,14 +23,14 @@ mental_calc:[
 
 // ── UNIDADES — ESCRIBIR (8 preguntas) ─────────────────────────────
 unit_write:[
-  {rows:[{emoji:'🪣',label:'cubo de agua',ans:'litro'},{emoji:'🧍',label:'estatura de una persona',ans:'metro'},{emoji:'⚖️',label:'bolsa de papas',ans:'kilo'}]},
-  {rows:[{emoji:'🥛',label:'botella de leche',ans:'litro'},{emoji:'📏',label:'largo de una mesa',ans:'metro'},{emoji:'🍎',label:'manzanas del mercado',ans:'kilo'}]},
-  {rows:[{emoji:'🫗',label:'jarra de jugo',ans:'litro'},{emoji:'🐟',label:'pescado en la pescadería',ans:'kilo'},{emoji:'🏠',label:'altura de una casa',ans:'metro'}]},
-  {rows:[{emoji:'🚿',label:'agua para bañarse',ans:'litro'},{emoji:'🧀',label:'queso en la tienda',ans:'kilo'},{emoji:'🛣️',label:'largo de un camino',ans:'metro'}]},
-  {rows:[{emoji:'🧃',label:'refresco',ans:'litro'},{emoji:'🧅',label:'cebollas',ans:'kilo'},{emoji:'🏊',label:'largo de la alberca',ans:'metro'}]},
-  {rows:[{emoji:'🍶',label:'aceite de cocina',ans:'litro'},{emoji:'🥩',label:'carne en la carnicería',ans:'kilo'},{emoji:'🌉',label:'largo de un puente',ans:'metro'}]},
-  {rows:[{emoji:'🧴',label:'shampoo',ans:'litro'},{emoji:'🍌',label:'plátanos en el mercado',ans:'kilo'},{emoji:'🏟️',label:'largo de una cancha',ans:'metro'}]},
-  {rows:[{emoji:'🫖',label:'tetera de té',ans:'litro'},{emoji:'🧆',label:'queso fresco',ans:'kilo'},{emoji:'🛤️',label:'distancia entre ciudades',ans:'metro'}]},
+  {rows:[{emoji:'🪣',label:'cubo de agua',ans:'litro'},{emoji:'🧍',label:'estatura de una persona',ans:'metro'},{emoji:'⚖️',label:'bolsa de papas',ans:'kilo'}], expected:'litro,metro,kilo'},
+  {rows:[{emoji:'🥛',label:'botella de leche',ans:'litro'},{emoji:'📏',label:'largo de una mesa',ans:'metro'},{emoji:'🍎',label:'manzanas del mercado',ans:'kilo'}], expected:'litro,metro,kilo'},
+  {rows:[{emoji:'🫗',label:'jarra de jugo',ans:'litro'},{emoji:'🐟',label:'pescado en la pescadería',ans:'kilo'},{emoji:'🏠',label:'altura de una casa',ans:'metro'}], expected:'litro,kilo,metro'},
+  {rows:[{emoji:'🚿',label:'agua para bañarse',ans:'litro'},{emoji:'🧀',label:'queso en la tienda',ans:'kilo'},{emoji:'🛣️',label:'largo de un camino',ans:'metro'}], expected:'litro,kilo,metro'},
+  {rows:[{emoji:'🧃',label:'refresco',ans:'litro'},{emoji:'🧅',label:'cebollas',ans:'kilo'},{emoji:'🏊',label:'largo de la alberca',ans:'metro'}], expected:'litro,kilo,metro'},
+  {rows:[{emoji:'🍶',label:'aceite de cocina',ans:'litro'},{emoji:'🥩',label:'carne en la carnicería',ans:'kilo'},{emoji:'🌉',label:'largo de un puente',ans:'metro'}], expected:'litro,kilo,metro'},
+  {rows:[{emoji:'🧴',label:'shampoo',ans:'litro'},{emoji:'🍌',label:'plátanos en el mercado',ans:'kilo'},{emoji:'🏟️',label:'largo de una cancha',ans:'metro'}], expected:'litro,kilo,metro'},
+  {rows:[{emoji:'🫖',label:'tetera de té',ans:'litro'},{emoji:'🧆',label:'queso fresco',ans:'kilo'},{emoji:'🛤️',label:'distancia entre ciudades',ans:'metro'}], expected:'litro,kilo,metro'},
 ],
 
 // ── PESAS (10 preguntas) ───────────────────────────────────────────
@@ -67,7 +67,7 @@ cascade_sub:[
 
 // ── SERIACIÓN CON CÍRCULOS (12 preguntas) ─────────────────────────
 serie_circles:[
-  {sequence:[{n:9,show:true},{n:null,show:false},{n:14,show:true},{n:null,show:false},{n:19,show:true}], rule:'+5',  nblanks:2, expected:'11,16', hint:'9+2=11... revisar: 9,14,19 → +5. Blancos: 11,16 si patrón es +2,+3... Realmente: posiciones 0,2,4 tienen 9,14,19 (+5 cada dos). Los blancos son posiciones 1,3: 11 y 16 con +5 desde 9→11? No. Revisando: secuencia completa 9,11,14,16,19 (+2,+3,+2,+3). Blancos=11,16'},
+  {sequence:[{n:9,show:true},{n:null,show:false},{n:14,show:true},{n:null,show:false},{n:19,show:true}], rule:'+5',  nblanks:2, expected:'11,16', hint:'Suma 5 en pares: 9,11,14,16,19. Los blancos son 11 y 16'},
   {sequence:[{n:2,show:true},{n:4,show:true},{n:null,show:false},{n:8,show:true},{n:null,show:false}],  rule:'+2',  nblanks:2, expected:'6,10',   hint:'Suma 2: 2,4,6,8,10'},
   {sequence:[{n:20,show:true},{n:null,show:false},{n:12,show:true},{n:null,show:false},{n:4,show:true}], rule:'−4',  nblanks:2, expected:'16,8',   hint:'Resta 4: 20,16,12,8,4'},
   {sequence:[{n:5,show:true},{n:null,show:false},{n:15,show:true},{n:null,show:false},{n:25,show:true}], rule:'+5',  nblanks:2, expected:'10,20',  hint:'Suma 5: 5,10,15,20,25'},

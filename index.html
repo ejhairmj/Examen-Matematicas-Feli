@@ -569,58 +569,61 @@ function showNoKeyWarning(){
 
 // ─── BUILD EXAM ────────────────────────────────
 function buildExam(){
-  // ── OBLIGATORIAS: 1 de cada tipo (12 tipos × 1 = 12 preguntas base) ──
-  // Problema: garantiza al menos 1 de cada subtipo (mult, resta, suma, doble/mitad)
-  const probMult   = pick(BANK.problem.filter(p=>p.subtype==='mult'),1)[0];
-  const probResta  = pick(BANK.problem.filter(p=>p.subtype==='resta'),1)[0];
-  const probSuma   = pick(BANK.problem.filter(p=>p.subtype==='suma'),1)[0];
-  const probDH     = pick(BANK.problem.filter(p=>p.subtype==='doble'||p.subtype==='mitad'),1)[0];
-  const mandatoryProbs = [probMult,probResta,probSuma,probDH].filter(Boolean);
+  // Tag a question object with type and topic
+  function tag(q, type, topic){ return Object.assign({}, q, {type, topic}); }
 
+  // Pick one random item from array and tag it
+  function one(arr, type, topic){
+    if(!arr || arr.length===0) return null;
+    const q = arr[Math.floor(Math.random()*arr.length)];
+    return tag(q, type, topic);
+  }
+
+  // ── STEP 1: 15 mandatory questions (1 per type) ───────────────
   const mandatory = [
-    {...pick(BANK.mental_calc,1)[0],      type:'mental_calc',       topic:'Cálculo Mental'},
-    {...pick(BANK.unit_write,1)[0],       type:'unit_write',         topic:'Unidades de Medición'},
-    {...pick(BANK.unit_weights,1)[0],     type:'unit_weights',       topic:'Unidades de Medición'},
-    {...pick(BANK.cascade_sub,1)[0],      type:'cascade_sub',        topic:'Resta en Cascada'},
-    {...pick(BANK.serie_circles,1)[0],    type:'serie_circles',      topic:'Seriaciones'},
-    {...pick(BANK.serie_chain,1)[0],      type:'serie_chain',        topic:'Seriaciones'},
-    {...pick(BANK.serie_resta,1)[0],      type:'serie_resta',        topic:'Seriaciones'},
-    {...pick(BANK.fraction_fill,1)[0],    type:'fraction_fill',      topic:'Fracciones'},
-    {...pick(BANK.fraction_classify,1)[0],type:'fraction_classify',  topic:'Fracciones'},
-    {...pick(BANK.double_half,1)[0],      type:'double_half',        topic:'Doble y Mitad'},
-    {...pick(BANK.clock,1)[0],            type:'clock',              topic:'El Reloj'},
-    ...mandatoryProbs.map(q=>({...q,     type:'problem',            topic:'Resolución de Problemas'})),
-  ]; // 11 + 4 = 15 preguntas obligatorias
+    one(BANK.mental_calc,                                          'mental_calc',       'Cálculo Mental'),
+    one(BANK.unit_write,                                           'unit_write',         'Unidades de Medición'),
+    one(BANK.unit_weights,                                         'unit_weights',       'Unidades de Medición'),
+    one(BANK.cascade_sub,                                          'cascade_sub',        'Resta en Cascada'),
+    one(BANK.serie_circles,                                        'serie_circles',      'Seriaciones'),
+    one(BANK.serie_chain,                                          'serie_chain',        'Seriaciones'),
+    one(BANK.serie_resta,                                          'serie_resta',        'Seriaciones'),
+    one(BANK.fraction_fill,                                        'fraction_fill',      'Fracciones'),
+    one(BANK.fraction_classify,                                    'fraction_classify',  'Fracciones'),
+    one(BANK.double_half,                                          'double_half',        'Doble y Mitad'),
+    one(BANK.clock,                                                'clock',              'El Reloj'),
+    one(BANK.problem.filter(p=>p.subtype==='mult'),                'problem',            'Resolución de Problemas'),
+    one(BANK.problem.filter(p=>p.subtype==='resta'),               'problem',            'Resolución de Problemas'),
+    one(BANK.problem.filter(p=>p.subtype==='suma'),                'problem',            'Resolución de Problemas'),
+    one(BANK.problem.filter(p=>p.subtype==='doble'||p.subtype==='mitad'), 'problem',     'Resolución de Problemas'),
+  ].filter(Boolean); // remove any nulls if a bank is empty
 
-  // ── RELLENO: 5 preguntas extras aleatorias para llegar a 20 ──
-  const usedIds = new Set(mandatory.map(q=>q.enunciado||q.story||q.a||q.start||JSON.stringify(q.sequence)));
+  // ── STEP 2: build pool of all tagged questions ────────────────
+  const allTagged = [
+    ...BANK.mental_calc        .map(q=>tag(q,'mental_calc',       'Cálculo Mental')),
+    ...BANK.unit_write         .map(q=>tag(q,'unit_write',         'Unidades de Medición')),
+    ...BANK.unit_weights       .map(q=>tag(q,'unit_weights',       'Unidades de Medición')),
+    ...BANK.cascade_sub        .map(q=>tag(q,'cascade_sub',        'Resta en Cascada')),
+    ...BANK.serie_circles      .map(q=>tag(q,'serie_circles',      'Seriaciones')),
+    ...BANK.serie_chain        .map(q=>tag(q,'serie_chain',        'Seriaciones')),
+    ...BANK.serie_resta        .map(q=>tag(q,'serie_resta',        'Seriaciones')),
+    ...BANK.fraction_fill      .map(q=>tag(q,'fraction_fill',      'Fracciones')),
+    ...BANK.fraction_classify  .map(q=>tag(q,'fraction_classify',  'Fracciones')),
+    ...BANK.double_half        .map(q=>tag(q,'double_half',        'Doble y Mitad')),
+    ...BANK.problem            .map(q=>tag(q,'problem',            'Resolución de Problemas')),
+    ...BANK.clock              .map(q=>tag(q,'clock',              'El Reloj')),
+  ];
 
-  const pool = [
-    ...BANK.mental_calc    .map(q=>({...q,type:'mental_calc',       topic:'Cálculo Mental'})),
-    ...BANK.unit_write     .map(q=>({...q,type:'unit_write',         topic:'Unidades de Medición'})),
-    ...BANK.unit_weights   .map(q=>({...q,type:'unit_weights',       topic:'Unidades de Medición'})),
-    ...BANK.cascade_sub    .map(q=>({...q,type:'cascade_sub',        topic:'Resta en Cascada'})),
-    ...BANK.serie_circles  .map(q=>({...q,type:'serie_circles',      topic:'Seriaciones'})),
-    ...BANK.serie_chain    .map(q=>({...q,type:'serie_chain',        topic:'Seriaciones'})),
-    ...BANK.serie_resta    .map(q=>({...q,type:'serie_resta',        topic:'Seriaciones'})),
-    ...BANK.fraction_fill  .map(q=>({...q,type:'fraction_fill',      topic:'Fracciones'})),
-    ...BANK.fraction_classify.map(q=>({...q,type:'fraction_classify',topic:'Fracciones'})),
-    ...BANK.double_half    .map(q=>({...q,type:'double_half',        topic:'Doble y Mitad'})),
-    ...BANK.problem        .map(q=>({...q,type:'problem',            topic:'Resolución de Problemas'})),
-    ...BANK.clock          .map(q=>({...q,type:'clock',              topic:'El Reloj'})),
-  ].filter(q=>{
-    // Exclude questions already in mandatory (by key property)
-    const key = q.enunciado||q.story||q.a||q.start||JSON.stringify(q.sequence||'');
-    return !usedIds.has(key);
-  });
+  // ── STEP 3: exclude mandatory ones by reference, fill to 20 ──
+  const mandatorySet = new Set(mandatory);
+  const pool = shuffle(allTagged.filter(q => !mandatorySet.has(q)));
+  const extras = pool.slice(0, Math.max(0, 20 - mandatory.length));
 
-  const extras = pick(pool, 20 - mandatory.length)
-    .map(q=>({...q}));
-
-  // ── COMBINAR, MEZCLAR, NUMERAR ──
-  const all = shuffle([...mandatory, ...extras]).slice(0,20);
-  return all.map((q,i)=>({...q, id:i+1}));
+  // ── STEP 4: combine, shuffle, number ─────────────────────────
+  const all = shuffle([...mandatory, ...extras]).slice(0, 20);
+  return all.map((q, i) => Object.assign({}, q, {id: i+1}));
 }
+
 
 function newExam(){
   evaluated=false;
@@ -646,8 +649,10 @@ function renderView(){
     $('nav-row').style.display='none';$('submit-row').style.display='block';
     let lastT='';
     exam.forEach(q=>{
-      if(q.topic!==lastT){lastT=q.topic;const d=document.createElement('div');d.className='topic-div';d.innerHTML=`<div class="tdl"></div><div class="tdlbl">${q.topic}</div><div class="tdl"></div>`;qa.appendChild(d);}
-      qa.appendChild(buildCard(q));
+      try {
+        if(q.topic!==lastT){lastT=q.topic;const d=document.createElement('div');d.className='topic-div';d.innerHTML=`<div class="tdl"></div><div class="tdlbl">${q.topic}</div><div class="tdl"></div>`;qa.appendChild(d);}
+        qa.appendChild(buildCard(q));
+      } catch(e){ console.error('renderView error on q'+q.id, e); }
     });
   } else {
     $('q-counter').style.display='block';$('prog-bar-wrap').style.display='block';
@@ -679,22 +684,43 @@ function getMode(id){return inputMode[id]!==undefined?inputMode[id]:globalMode;}
 
 function buildCard(q){
   const card=document.createElement('div');card.className='qcard';card.id='card-'+q.id;
-  const m=getMode(q.id);
-  const hasKey=!!getApiKey();
-  const drawDisabled=!hasKey;
-  const drawStyle=drawDisabled?'opacity:.4;cursor:not-allowed;':'';
-  const drawTitle=drawDisabled?'title="Configura la clave API en ⚙️ para usar el trazo"':'';
-  const toggle=`<div class="mode-row">
-    <button class="mbtn${m==='text'?' on':''}" onclick="setMode(${q.id},'text')">⌨️ Teclado</button>
-    <button class="mbtn${m==='draw'?' on':''}" onclick="setMode(${q.id},'draw')" style="${drawStyle}" ${drawTitle}>✏️ Trazo${drawDisabled?' 🔒':''}</button>
-  </div>`;
-  const map={mental_calc:bMentalCalc,unit_write:bUnitWrite,unit_weights:bUnitWeights,
-    cascade_sub:bCascade,serie_circles:bSerieCircles,serie_chain:bSerieChain,
-    serie_resta:bSerieResta,fraction_fill:bFracFill,fraction_classify:bFracClassify,
-    double_half:bDoubleHalf,problem:bProblem,clock:bClock};
-  const fn=map[q.type]||((q,m,t)=>t+drawOrText(q,m));
-  const qLabel=q.enunciado?`Resuelve mentalmente:`:q.q||'';
-  card.innerHTML=`<div class="q-header"><div class="q-badge">${q.id}</div><div style="flex:1"><div class="q-tag">${q.topic}</div><div class="q-text">${q.q||qLabel}</div></div></div><div class="q-body">${fn(q,m,toggle)}</div>`;
+  try {
+    const m=getMode(q.id);
+    const hasKey=!!getApiKey();
+    const drawDisabled=!hasKey;
+    const drawStyle=drawDisabled?'opacity:.4;cursor:not-allowed;':'';
+    const drawTitle=drawDisabled?'title="Configura la clave API en ⚙️ para usar el trazo"':'';
+    const toggle=`<div class="mode-row">
+      <button class="mbtn${m==='text'?' on':''}" onclick="setMode(${q.id},'text')">⌨️ Teclado</button>
+      <button class="mbtn${m==='draw'?' on':''}" onclick="setMode(${q.id},'draw')" style="${drawStyle}" ${drawTitle}>✏️ Trazo${drawDisabled?' 🔒':''}</button>
+    </div>`;
+    const map={mental_calc:bMentalCalc,unit_write:bUnitWrite,unit_weights:bUnitWeights,
+      cascade_sub:bCascade,serie_circles:bSerieCircles,serie_chain:bSerieChain,
+      serie_resta:bSerieResta,fraction_fill:bFracFill,fraction_classify:bFracClassify,
+      double_half:bDoubleHalf,problem:bProblem,clock:bClock};
+    const fn=map[q.type]||((q,m,t)=>t+drawOrText(q,m));
+    // Derive question label from type since bank entries don't have a 'q' field
+    const qTextMap = {
+      mental_calc:     'Resuelve mentalmente:',
+      unit_write:      '¿Qué medida ocupa en cada caso? Escribe litro, kilo o metro, según corresponda.',
+      unit_weights:    'Observa las pesas. ¿Cuánto hay en total?',
+      cascade_sub:     'Resuelve la resta usando el método de cascada:',
+      serie_circles:   'Identifica el patrón y completa la serie:',
+      serie_chain:     'Completa la cadena siguiendo las reglas:',
+      serie_resta:     'Completa los recuadros aplicando la resta indicada:',
+      fraction_fill:   'Lee el problema y completa las fracciones:',
+      fraction_classify:'Escribe qué tipo de fracción es cada una:',
+      double_half:     'Sigue la cadena y calcula:',
+      problem:         'Lee y resuelve el problema:',
+      clock:           'Observa los relojes y contesta las preguntas:',
+    };
+    const qText = qTextMap[q.type] || q.q || q.story || '';
+    const body=fn(q,m,toggle);
+    card.innerHTML=`<div class="q-header"><div class="q-badge">${q.id}</div><div style="flex:1"><div class="q-tag">${q.topic||''}</div><div class="q-text">${qText}</div></div></div><div class="q-body">${body}</div>`;
+  } catch(e) {
+    console.error('Error building card for question', q.id, q.type, e);
+    card.innerHTML=`<div class="q-header"><div class="q-badge">${q.id}</div><div style="flex:1"><div class="q-tag">${q.topic||''}</div><div class="q-text" style="color:var(--red)">Error al cargar esta pregunta (tipo: ${q.type})</div></div></div>`;
+  }
   return card;
 }
 
