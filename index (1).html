@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Examen de Matemáticas · 3er Trimestre</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#16a372;--gd:#0c6e4f;--gb:#d4f5e9;--gm:#7fd4b8;
+  --red:#e03030;--rb:#fde8e8;
+  --yel:#f5c518;--yb:#fffbe6;
+  --blue:#2a7de1;--bb:#e6f0ff;
+  --text:#1a1a1a;--muted:#666;--border:#ccc;
+  --bg:#f0f4f0;--white:#fff;--r:14px;
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);font-size:18px}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,var(--g),var(--gd));padding:.9rem 1.4rem;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 3px 12px rgba(0,0,0,.2);position:sticky;top:0;z-index:200;flex-wrap:wrap}
+.hdr-title{font-family:'Baloo 2',cursive;font-size:22px;font-weight:900;color:#fff;line-height:1.1}
+.hdr-sub{font-size:12px;color:rgba(255,255,255,.8);margin-top:1px}
+.hdr-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+/* Global mode toggle */
+.global-mode{display:flex;background:rgba(255,255,255,.15);border-radius:24px;padding:3px;gap:2px}
+.gm-btn{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;padding:7px 16px;border-radius:20px;border:none;cursor:pointer;transition:all .2s;background:transparent;color:rgba(255,255,255,.8)}
+.gm-btn.on{background:#fff;color:var(--gd)}
+.hbtn{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;border:none;border-radius:10px;padding:9px 16px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.hbtn-w{background:#fff;color:var(--gd)}.hbtn-w:hover{background:#e8faf3}
+.hbtn-t{background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5)}.hbtn-t:hover{background:rgba(255,255,255,.35)}
+.hbtn:disabled{opacity:.4;cursor:not-allowed}
+
+.wrap{max-width:900px;margin:0 auto;padding:1.5rem 1rem 5rem}
+
+/* ── INTRO ── */
+#intro{text-align:center;padding:2.5rem 1rem}
+.big-icon{font-size:68px;margin-bottom:12px}
+#intro h2{font-family:'Baloo 2',cursive;font-size:30px;font-weight:900;margin-bottom:10px}
+#intro p{font-size:17px;color:var(--muted);max-width:480px;margin:0 auto 22px;line-height:1.6}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:8px;max-width:560px;margin:0 auto 26px}
+.chip{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.chip-dot{width:9px;height:9px;border-radius:50%;background:var(--g);flex-shrink:0}
+.btn-start{font-family:'Nunito',sans-serif;background:var(--g);color:#fff;border:none;border-radius:12px;padding:15px 44px;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,114,.35);transition:all .2s}
+.btn-start:hover{background:var(--gd);transform:translateY(-1px)}
+
+/* ── VIEW TOGGLE ── */
+#view-toggle{display:none;justify-content:center;gap:12px;margin-bottom:1.4rem}
+.vtbtn{font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;padding:10px 22px;border-radius:30px;border:2px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:all .2s}
+.vtbtn.on{background:var(--g);color:#fff;border-color:var(--g)}
+#q-counter{display:none;text-align:center;font-size:16px;font-weight:700;color:var(--muted);margin-bottom:.4rem}
+#prog-bar-wrap{display:none;background:#ddd;border-radius:20px;height:9px;margin-bottom:1.4rem;overflow:hidden}
+#prog-bar{background:var(--g);height:100%;border-radius:20px;transition:width .3s}
+
+/* ── CARD ── */
+.qcard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1.5rem 1.7rem;margin-bottom:1.3rem;transition:box-shadow .2s}
+.qcard:hover{box-shadow:0 3px 14px rgba(0,0,0,.08)}
+.qcard.correct{border-left:6px solid var(--g)}.qcard.wrong{border-left:6px solid var(--red)}
+.q-badge{display:inline-flex;align-items:center;justify-content:center;background:var(--gb);color:var(--gd);font-size:15px;font-weight:900;min-width:36px;height:36px;border-radius:50%;flex-shrink:0}
+.q-header{display:flex;align-items:flex-start;gap:13px;margin-bottom:13px}
+.q-text{font-size:19px;font-weight:700;line-height:1.4;padding-top:4px}
+.q-tag{display:inline-block;background:var(--gb);color:var(--gd);font-size:11px;font-weight:800;padding:3px 11px;border-radius:20px;margin-bottom:7px;letter-spacing:.5px;text-transform:uppercase}
+
+/* topic divider */
+.topic-div{display:flex;align-items:center;gap:12px;margin:2rem 0 1rem}
+.tdl{flex:1;height:2px;background:var(--border)}
+.tdlbl{background:var(--g);color:#fff;font-size:13px;font-weight:900;letter-spacing:1px;text-transform:uppercase;padding:5px 18px;border-radius:20px;white-space:nowrap}
+
+/* ── PER-CARD MODE TOGGLE ── */
+.mode-row{display:flex;gap:7px;margin-bottom:13px}
+.mbtn{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:#f5f5f5;color:var(--muted);cursor:pointer;transition:all .15s}
+.mbtn.on{background:var(--g);color:#fff;border-color:var(--g)}
+
+/* ── CANVAS ── */
+.cv-wrap{border:3px dashed var(--g);border-radius:12px;overflow:hidden;background:#f9fffc}
+canvas.drawpad{display:block;width:100%;height:160px;cursor:crosshair;touch-action:none}
+.cv-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--gb);border-top:1.5px solid var(--gm)}
+.cv-bar button{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;padding:4px 12px;border-radius:8px;border:1.5px solid var(--gm);background:#fff;color:var(--gd);cursor:pointer}
+.cv-hint{font-size:12px;color:var(--gd);flex:1;text-align:right;font-weight:600}
+
+/* ── INPUTS ── */
+.ans-box{width:100%;border:2.5px solid var(--border);border-radius:10px;padding:11px 15px;font-size:20px;font-family:'Nunito',sans-serif;font-weight:700;resize:none;color:var(--text);transition:border-color .2s;background:var(--white)}
+.ans-box:focus{outline:none;border-color:var(--g)}
+.ans-line{border:none;border-bottom:3px solid var(--text);background:transparent;font-size:20px;font-weight:800;font-family:'Nunito',sans-serif;color:var(--text);padding:3px 8px;text-align:center}
+.ans-line:focus{outline:none;border-bottom-color:var(--g)}
+
+/* ── CÁLCULO MENTAL ── */
+.calc-box{background:#fffdf0;border:2px solid var(--yel);border-radius:12px;padding:18px 22px;margin-bottom:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.calc-text{font-size:24px;font-weight:900}
+input.calc-ans{border:2.5px solid var(--g);border-radius:10px;padding:8px 14px;font-size:26px;font-weight:900;font-family:'Nunito',sans-serif;min-width:120px;width:140px;text-align:center;background:#fff;color:var(--text)}
+input.calc-ans:focus{outline:none;border-color:var(--gd)}
+
+/* ── UNIDADES — SELECCIÓN MÚLTIPLE ── */
+.unit-mc-row{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.unit-emoji-big{font-size:52px;flex-shrink:0;width:70px;text-align:center}
+.unit-options{display:flex;gap:8px;flex-wrap:wrap}
+.unit-opt{font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;padding:10px 20px;border:2.5px solid var(--border);border-radius:10px;cursor:pointer;background:var(--white);color:var(--text);transition:all .15s;user-select:none}
+.unit-opt:hover{border-color:var(--g);background:var(--gb)}
+.unit-opt.selected{background:var(--g);color:#fff;border-color:var(--gd)}
+
+/* ── PESAS ── */
+.weights-scene{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px}
+.weight-item{display:flex;flex-direction:column;align-items:center;gap:5px}
+.weight-lbl{font-size:13px;font-weight:800}
+.hay-row{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:700;flex-wrap:wrap}
+input.hay-ans{border:2.5px solid var(--g);border-radius:8px;padding:8px 14px;font-size:20px;font-weight:800;font-family:'Nunito',sans-serif;min-width:180px;text-align:center;background:#fff;color:var(--text)}
+input.hay-ans:focus{outline:none;border-color:var(--gd)}
+/* pesas MC */
+.weights-opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.weights-opt{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;padding:10px 18px;border:2.5px solid var(--border);border-radius:10px;cursor:pointer;background:var(--white);color:var(--text);transition:all .15s;user-select:none}
+.weights-opt:hover{border-color:var(--g);background:var(--gb)}
+.weights-opt.selected{background:var(--g);color:#fff;border-color:var(--gd)}
+
+/* ── RESTA EN CASCADA — estructura exacta de la foto ── */
+/* Foto: 3 cajas arriba con bordes redondeados (38,15,26)
+   Flechas curvas hacia abajo → dos cajas medianas (23,11)
+   Flecha hacia abajo → una caja pequeña (12) */
+.cascade-tree{display:flex;flex-direction:column;align-items:center;gap:0;margin-bottom:14px;user-select:none}
+.casc-row-top{display:flex;gap:14px;justify-content:center}
+.casc-row-mid{display:flex;gap:40px;justify-content:center;position:relative;margin-top:4px}
+.casc-row-bot{display:flex;justify-content:center;margin-top:4px}
+/* rounded box like in photo */
+.casc-box{background:#f0f0f0;border:2px solid #bbb;border-radius:14px;padding:12px 22px;font-size:26px;font-weight:900;font-family:'Courier New',monospace;min-width:78px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+.casc-box.answer{background:#fff;border:2.5px solid var(--g);border-style:dashed}
+input.casc-input{border:none;background:transparent;font-size:26px;font-weight:900;font-family:'Nunito',sans-serif;width:80px;text-align:center;color:var(--text);padding:0}
+input.casc-input:focus{outline:none}
+/* op label inside box */
+.casc-op-lbl{font-size:12px;font-weight:700;color:var(--muted);font-family:'Nunito',sans-serif;white-space:nowrap}
+/* SVG arrows */
+.casc-arrows-top{width:100%;max-width:380px;overflow:visible}
+.casc-arrows-mid{width:100%;max-width:240px;overflow:visible;margin-top:-4px}
+
+/* ── SERIACIONES CON CÍRCULOS (foto 1) ── */
+/* Estructura: número seguido de grupo de bolitas, con blancos circulares */
+.serie-circ-wrap{margin-bottom:14px}
+.serie-rule-tag{display:inline-flex;align-items:center;gap:6px;background:var(--bb);color:var(--blue);border:1.5px solid #b3d4ff;border-radius:20px;font-size:14px;font-weight:800;padding:4px 14px;margin-bottom:12px}
+.serie-circ-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sc-group{display:flex;align-items:center;gap:8px}
+.sc-num{font-size:22px;font-weight:900;min-width:26px}
+.sc-balls{display:flex;flex-wrap:wrap;gap:4px;max-width:120px}
+.ball{width:20px;height:20px;border-radius:50%;border:2px solid #888;background:#ccc;flex-shrink:0}
+.ball.f{background:#555;border-color:#333}
+.sc-arrow{font-size:20px;color:#bbb;font-weight:900;flex-shrink:0}
+input.sc-blank{width:56px;height:56px;border-radius:50%;border:3px solid var(--g);background:#fff;font-size:20px;font-weight:900;text-align:center;font-family:'Nunito',sans-serif;color:var(--text);padding:0}
+input.sc-blank:focus{outline:none;border-color:var(--gd);background:var(--gb)}
+
+/* ── SERIACIÓN CADENA PAR/IMPAR (foto 2) ── */
+.chain-rules{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.chain-rule-box{background:#f0f0f0;border:1.5px solid #ccc;border-radius:8px;padding:6px 13px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
+.chain-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.chain-box{background:#f5f5f5;border:2px solid #bbb;border-radius:10px;padding:9px 16px;font-size:22px;font-weight:900;min-width:54px;text-align:center}
+.chain-end-box{border:2.5px solid var(--gd);background:var(--gb)}
+.chain-arr{font-size:22px;color:var(--g);font-weight:900;flex-shrink:0}
+input.chain-blank{border:2.5px solid var(--g);border-radius:10px;padding:7px 10px;font-size:22px;font-weight:900;font-family:'Nunito',sans-serif;width:70px;text-align:center;background:#fff;color:var(--text)}
+input.chain-blank:focus{outline:none;border-color:var(--gd);background:var(--gb)}
+
+/* ── SERIACIÓN RESTA-ÁRBOL (foto 2 - cajas con restas) ── */
+/* Idéntico a cascada pero con blancos */
+.sresta-wrap{margin-bottom:14px}
+
+/* ── FRACCIONES ── */
+.frac-story{background:var(--yb);border-left:5px solid var(--yel);border-radius:0 12px 12px 0;padding:15px 18px;font-size:19px;font-weight:700;line-height:1.7;margin-bottom:13px}
+.frac-fill-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:19px;font-weight:700;flex-wrap:wrap}
+input.frac-blank{border:none;border-bottom:3px solid var(--text);background:transparent;font-size:20px;font-weight:800;font-family:'Nunito',sans-serif;min-width:110px;text-align:center;padding:3px 8px;color:var(--text)}
+input.frac-blank:focus{outline:none;border-bottom-color:var(--g)}
+/* classify grid */
+.frac-cls-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:13px}
+.frac-cls-item{background:#f8f8f8;border:2px solid var(--border);border-radius:12px;padding:15px 10px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:9px}
+.frac-disp{display:inline-flex;flex-direction:column;align-items:center;font-size:28px;font-weight:900;line-height:1.1;vertical-align:middle}
+.frac-disp .fn{border-bottom:2.5px solid var(--text);padding:1px 7px}
+.frac-disp .fd{padding:1px 7px}
+.frac-whole{font-size:28px;font-weight:900;vertical-align:middle}
+input.frac-type-input{border:none;border-bottom:3px solid var(--text);background:transparent;font-size:16px;font-weight:800;font-family:'Nunito',sans-serif;min-width:110px;text-align:center;padding:3px 6px;color:var(--text)}
+input.frac-type-input:focus{outline:none;border-bottom-color:var(--g)}
+
+/* ── DOBLE/MITAD CADENA ── */
+.dh-chain{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.dh-box{background:#f5f5f5;border:2.5px solid var(--border);border-radius:10px;padding:11px 18px;font-size:26px;font-weight:900;min-width:68px;text-align:center}
+.dh-op{background:var(--bb);border:2px solid #b3d4ff;border-radius:8px;padding:7px 12px;font-size:14px;font-weight:800;color:var(--blue);white-space:nowrap}
+.dh-arr{font-size:22px;color:#bbb;font-weight:900;flex-shrink:0}
+input.dh-blank{border:2.5px solid var(--g);border-radius:10px;padding:9px 12px;font-size:26px;font-weight:900;font-family:'Nunito',sans-serif;width:100px;text-align:center;background:#fff;color:var(--text)}
+input.dh-blank:focus{outline:none;border-color:var(--gd);background:var(--gb)}
+
+/* ── PROBLEMA ── */
+.prob-story{background:var(--yb);border-left:5px solid var(--yel);border-radius:0 12px 12px 0;padding:15px 18px;font-size:20px;font-weight:700;line-height:1.6;margin-bottom:13px}
+.prob-vertical{font-family:'Courier New',monospace;font-size:28px;font-weight:900;margin:0 0 12px 8px;line-height:1.7}
+.prob-vline{border-top:3px solid var(--text);width:130px;margin:4px 0}
+input.prob-ans{border:none;border-bottom:3px solid var(--text);background:transparent;font-size:26px;font-weight:900;font-family:'Nunito',sans-serif;min-width:120px;text-align:right;padding:3px 8px;color:var(--text)}
+input.prob-ans:focus{outline:none;border-bottom-color:var(--g)}
+.prob-r-label{font-size:18px;font-weight:700;color:var(--muted);margin-top:6px}
+
+/* ── RELOJ ── */
+.clock-story{font-size:18px;font-weight:700;line-height:1.6;margin-bottom:14px}
+.clock-scene{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.clock-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.clock-qlbl{font-size:15px;font-weight:700;color:var(--muted);text-align:center;max-width:160px}
+
+/* ── RESULT FEEDBACK ── */
+.res-badge{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:800;text-transform:uppercase;padding:5px 13px;border-radius:20px;margin-top:13px}
+.res-badge.ok{background:var(--gb);color:var(--gd)}.res-badge.bad{background:var(--rb);color:#a32d2d}
+.res-correct{margin-top:7px;font-size:17px;color:#a32d2d;font-weight:800}
+.res-explain{margin-top:4px;font-size:14px;color:var(--muted);font-style:italic}
+
+/* ── SCORE ── */
+#score-panel{display:none;background:var(--white);border:2px solid var(--border);border-radius:var(--r);padding:2.5rem;text-align:center;margin-bottom:2rem}
+.sc-em{font-size:62px;margin-bottom:10px}
+.sc-num{font-family:'Baloo 2',cursive;font-size:70px;font-weight:900;color:var(--g);line-height:1}
+.sc-pct{font-size:17px;color:var(--muted);margin-top:5px}
+.sc-msg{font-size:19px;font-weight:800;margin-top:13px}
+.btn-new{font-family:'Nunito',sans-serif;background:var(--g);color:#fff;border:none;border-radius:12px;padding:13px 34px;font-size:17px;font-weight:900;cursor:pointer;margin-top:17px;transition:background .2s}
+.btn-new:hover{background:var(--gd)}
+
+/* ── SUBMIT/NAV ── */
+#submit-row{display:none;text-align:center;padding:1rem 0 3rem}
+.btn-submit{font-family:'Nunito',sans-serif;background:var(--g);color:#fff;border:none;border-radius:12px;padding:15px 50px;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,114,.35);transition:all .2s}
+.btn-submit:hover{background:var(--gd);transform:translateY(-1px)}
+.btn-submit:disabled{background:var(--gm);cursor:not-allowed;box-shadow:none;transform:none}
+#nav-row{display:none;justify-content:space-between;align-items:center;gap:12px;padding:1rem 0 3rem}
+.nav-btn{font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;padding:12px 28px;border-radius:12px;border:2px solid var(--border);background:var(--white);color:var(--text);cursor:pointer;transition:all .2s}
+.nav-btn:hover{background:var(--gb);border-color:var(--g)}
+.nav-btn.nx{background:var(--g);color:#fff;border-color:var(--g)}.nav-btn.nx:hover{background:var(--gd)}
+
+
+/* ── ADMIN PANEL ── */
+#admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center;padding:1rem}
+#admin-overlay.show{display:flex}
+.admin-panel{background:#fff;border-radius:18px;padding:2rem;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative}
+.admin-close{position:absolute;top:14px;right:16px;font-size:22px;background:none;border:none;cursor:pointer;color:var(--muted);line-height:1}
+.admin-title{font-family:'Baloo 2',cursive;font-size:22px;font-weight:900;color:var(--text);margin-bottom:4px}
+.admin-sub{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.admin-field{margin-bottom:16px}
+.admin-label{display:block;font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px}
+.admin-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 14px;font-size:15px;font-family:'Nunito',sans-serif;color:var(--text);transition:border-color .2s}
+.admin-input:focus{outline:none;border-color:var(--g)}
+.admin-input-row{display:flex;gap:8px}
+.admin-input-row .admin-input{flex:1}
+.admin-eye{background:none;border:2px solid var(--border);border-radius:10px;padding:0 14px;font-size:18px;cursor:pointer;transition:border-color .2s}
+.admin-eye:hover{border-color:var(--g)}
+.admin-status{font-size:13px;font-weight:700;padding:8px 12px;border-radius:8px;margin-bottom:16px;display:none}
+.admin-status.ok{display:block;background:var(--gb);color:var(--gd)}
+.admin-status.err{display:block;background:var(--rb);color:#a32d2d}
+.admin-status.info{display:block;background:var(--bb);color:var(--blue)}
+.admin-save{font-family:'Nunito',sans-serif;background:var(--g);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:16px;font-weight:900;cursor:pointer;width:100%;transition:background .2s}
+.admin-save:hover{background:var(--gd)}
+.admin-test{font-family:'Nunito',sans-serif;background:#f5f5f5;color:var(--text);border:2px solid var(--border);border-radius:10px;padding:10px 20px;font-size:14px;font-weight:800;cursor:pointer;width:100%;margin-top:8px;transition:all .2s}
+.admin-test:hover{background:var(--gb);border-color:var(--g)}
+.admin-divider{border:none;border-top:1.5px solid var(--border);margin:18px 0}
+.admin-info-row{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);margin-bottom:8px}
+.admin-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.admin-dot.green{background:var(--g)}
+.admin-dot.red{background:var(--red)}
+.admin-dot.gray{background:#bbb}
+/* login screen inside admin */
+#admin-login{display:block}
+#admin-main{display:none}
+.admin-lock-icon{font-size:48px;text-align:center;margin-bottom:12px}
+
+@media(max-width:600px){
+  .hdr{padding:.8rem}.wrap{padding:1rem .8rem 4rem}
+  .qcard{padding:1.2rem 1rem}.q-text{font-size:18px}
+  .calc-text{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-title">📐 Examen de Matemáticas</div>
+    <div class="hdr-sub">3er Trimestre · 2025-2026</div>
+  </div>
+  <div class="hdr-right">
+    <!-- Global input mode toggle -->
+    <div class="global-mode" id="global-mode">
+      <button class="gm-btn on" id="gm-text" onclick="setGlobalMode('text')">⌨️ Teclado</button>
+      <button class="gm-btn" id="gm-draw" onclick="setGlobalMode('draw')">✏️ Trazo</button>
+    </div>
+    <button class="hbtn hbtn-t" onclick="openAdmin()" title="Administración" style="padding:9px 12px;font-size:16px">⚙️</button>
+    <button class="hbtn hbtn-t" onclick="newExam()">🎲 Nueva prueba</button>
+    <button class="hbtn hbtn-w" id="btn-eval" onclick="evalExam()" disabled>✅ Evaluar</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- INTRO -->
+  <div id="intro">
+    <div class="big-icon">🎒</div>
+    <h2>¡Hora de practicar!</h2>
+    <p>20 preguntas aleatorias de todos los temas del 3er trimestre. Al menos una de cada tipo en cada prueba.</p>
+    <div class="chips">
+      <div class="chip"><span class="chip-dot"></span>Cálculo Mental</div>
+      <div class="chip"><span class="chip-dot"></span>Unidades (L / kg / m)</div>
+      <div class="chip"><span class="chip-dot"></span>Resta en Cascada</div>
+      <div class="chip"><span class="chip-dot"></span>Fracciones</div>
+      <div class="chip"><span class="chip-dot"></span>Seriaciones</div>
+      <div class="chip"><span class="chip-dot"></span>El Reloj</div>
+      <div class="chip"><span class="chip-dot"></span>Doble y Mitad</div>
+      <div class="chip"><span class="chip-dot"></span>Problemas ×+-</div>
+    </div>
+    <button class="btn-start" onclick="newExam()">🚀 Generar Examen</button>
+  </div>
+
+  <!-- SCORE -->
+  <div id="score-panel">
+    <div class="sc-em" id="sc-em">🌟</div>
+    <div class="sc-num" id="sc-num">0/20</div>
+    <div class="sc-pct" id="sc-pct"></div>
+    <div class="sc-msg" id="sc-msg"></div>
+    <button class="btn-new" onclick="newExam()">🔄 Nueva prueba</button>
+  </div>
+
+  <!-- VIEW TOGGLE -->
+  <div id="view-toggle">
+    <button class="vtbtn on" id="vt-all" onclick="setView('all')">📋 Todas juntas</button>
+    <button class="vtbtn" id="vt-one" onclick="setView('one')">➡️ Una por una</button>
+  </div>
+  <div id="q-counter"></div>
+  <div id="prog-bar-wrap"><div id="prog-bar" style="width:0%"></div></div>
+  <div id="qa"></div>
+  <div id="submit-row"><button class="btn-submit" id="btn-submit" onclick="evalExam()">✅ Terminar y evaluar mis respuestas</button></div>
+  <div id="nav-row">
+    <button class="nav-btn" id="nav-prev" onclick="navQ(-1)">← Anterior</button>
+    <button class="nav-btn nx" id="nav-next" onclick="navQ(1)">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ADMIN OVERLAY -->
+<div id="admin-overlay">
+  <div class="admin-panel">
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+
+    <!-- LOGIN SCREEN -->
+    <div id="admin-login">
+      <div class="admin-lock-icon">🔐</div>
+      <div class="admin-title" style="text-align:center">Administración</div>
+      <div class="admin-sub" style="text-align:center">Ingresa la contraseña para acceder a la configuración.</div>
+      <div class="admin-field">
+        <label class="admin-label">Contraseña</label>
+        <div class="admin-input-row">
+          <input class="admin-input" id="admin-pwd-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdminPwd()">
+          <button class="admin-eye" onclick="toggleAdminPwd()">👁</button>
+        </div>
+      </div>
+      <div class="admin-status" id="login-status"></div>
+      <button class="admin-save" onclick="checkAdminPwd()">Ingresar →</button>
+      <div style="margin-top:14px;text-align:center;font-size:12px;color:var(--muted)">Contraseña por defecto: <strong>admin123</strong></div>
+    </div>
+
+    <!-- MAIN ADMIN SCREEN -->
+    <div id="admin-main">
+      <div class="admin-title">⚙️ Configuración</div>
+      <div class="admin-sub">Configura la API de Anthropic para habilitar el reconocimiento de escritura a mano (OCR) en los campos de trazo.</div>
+
+      <!-- API KEY STATUS -->
+      <div id="admin-api-status" class="admin-status"></div>
+
+      <!-- API KEY FIELD -->
+      <div class="admin-field">
+        <label class="admin-label">🔑 Clave API de Anthropic</label>
+        <div class="admin-input-row">
+          <input class="admin-input" id="admin-apikey" type="password" placeholder="sk-ant-api03-…" autocomplete="off">
+          <button class="admin-eye" onclick="toggleApiKeyVis()">👁</button>
+        </div>
+        <div style="margin-top:6px;font-size:12px;color:var(--muted)">
+          Obtén tu clave gratis en <a href="https://console.anthropic.com" target="_blank" style="color:var(--g);font-weight:700">console.anthropic.com</a> → API Keys
+        </div>
+      </div>
+
+      <button class="admin-test" onclick="testApiKey()">🧪 Probar conexión</button>
+      <button class="admin-save" style="margin-top:10px" onclick="saveApiKey()">💾 Guardar clave</button>
+
+      <hr class="admin-divider">
+
+      <!-- STATUS INFO -->
+      <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:10px">Estado actual</div>
+      <div class="admin-info-row"><div class="admin-dot" id="dot-key"></div><span id="lbl-key">Sin clave guardada</span></div>
+      <div class="admin-info-row"><div class="admin-dot" id="dot-ocr"></div><span id="lbl-ocr">OCR de trazos: desactivado</span></div>
+      <div class="admin-info-row"><div class="admin-dot" id="dot-net"></div><span id="lbl-net">Conexión: verificando…</span></div>
+
+      <hr class="admin-divider">
+
+      <!-- CHANGE PASSWORD -->
+      <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:10px">Cambiar contraseña</div>
+      <div class="admin-field">
+        <label class="admin-label">Nueva contraseña</label>
+        <input class="admin-input" id="admin-newpwd" type="password" placeholder="Mínimo 4 caracteres">
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">Confirmar contraseña</label>
+        <input class="admin-input" id="admin-newpwd2" type="password" placeholder="Repite la contraseña">
+      </div>
+      <div class="admin-status" id="pwd-status"></div>
+      <button class="admin-test" onclick="changeAdminPwd()">🔒 Cambiar contraseña</button>
+
+      <hr class="admin-divider">
+      <button class="admin-test" style="color:var(--red);border-color:var(--red)" onclick="clearApiKey()">🗑️ Borrar clave guardada</button>
+      <div style="margin-top:16px;text-align:right">
+        <button onclick="closeAdmin()" style="font-family:Nunito,sans-serif;font-size:14px;font-weight:700;background:none;border:none;color:var(--muted);cursor:pointer">Cerrar ✕</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="questions.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════
+//  BANCO DE PREGUNTAS
+// ═══════════════════════════════════════════════════════
+// Banco de preguntas cargado desde questions.js
+
+// ═══════════════════════════════════════════════════════
+//  ESTADO
+// ═══════════════════════════════════════════════════════
+let exam=[], answers={}, canvasData={}, inputMode={};
+let viewMode='all', currentQ=0, evaluated=false;
+let globalMode='text';
+const isTouch='ontouchstart' in window;
+const $=id=>document.getElementById(id);
+
+// ─── API KEY (stored in localStorage) ──────────────
+const LS_KEY='exam_anthropic_key';
+const LS_PWD='exam_admin_pwd';
+function getApiKey(){return localStorage.getItem(LS_KEY)||'';}
+function getAdminPwd(){return localStorage.getItem(LS_PWD)||'admin123';}
+
+// ─── ADMIN PANEL ────────────────────────────────────
+function openAdmin(){
+  $('admin-overlay').classList.add('show');
+  $('admin-login').style.display='block';
+  $('admin-main').style.display='none';
+  $('admin-pwd-input').value='';
+  $('login-status').className='admin-status';
+  $('login-status').textContent='';
+  setTimeout(()=>$('admin-pwd-input').focus(),100);
+}
+function closeAdmin(){$('admin-overlay').classList.remove('show');}
+$('admin-overlay').addEventListener('click',e=>{if(e.target===$('admin-overlay'))closeAdmin();});
+
+function toggleAdminPwd(){const i=$('admin-pwd-input');i.type=i.type==='password'?'text':'password';}
+function toggleApiKeyVis(){const i=$('admin-apikey');i.type=i.type==='password'?'text':'password';}
+
+function checkAdminPwd(){
+  const val=$('admin-pwd-input').value;
+  if(val===getAdminPwd()){
+    $('admin-login').style.display='none';
+    $('admin-main').style.display='block';
+    loadAdminStatus();
+    // Pre-fill key field (masked)
+    const k=getApiKey();
+    $('admin-apikey').value=k?k:'';
+  } else {
+    const s=$('login-status');
+    s.className='admin-status err';
+    s.textContent='Contraseña incorrecta. Intenta de nuevo.';
+  }
+}
+
+function refreshDrawButtons(){
+  const hasKey=!!getApiKey();
+  const drawBtn=$('gm-draw');
+  if(drawBtn){
+    drawBtn.style.opacity=hasKey?'':'0.4';
+    drawBtn.style.cursor=hasKey?'':'not-allowed';
+    drawBtn.title=hasKey?'':'Configura la clave API en ⚙️ para usar el trazo';
+    drawBtn.textContent=hasKey?'✏️ Trazo':'✏️ Trazo 🔒';
+    // If global mode was draw but key was removed, reset to text
+    if(!hasKey && globalMode==='draw'){
+      globalMode='text';
+      $('gm-text').className='gm-btn on';
+      drawBtn.className='gm-btn';
+      if(exam.length>0){inputMode={};renderView();}
+    }
+  }
+}
+
+function loadAdminStatus(){
+  const key=getApiKey();
+  // Key dot
+  $('dot-key').className='admin-dot '+(key?'green':'gray');
+  $('lbl-key').textContent=key?'Clave guardada ('+key.slice(0,12)+'…)':'Sin clave guardada';
+  // OCR dot
+  $('dot-ocr').className='admin-dot '+(key?'green':'red');
+  $('lbl-ocr').textContent=key?'OCR de trazos: activado ✓':'OCR de trazos: desactivado (necesita clave)';
+  // Network dot
+  $('dot-net').className='admin-dot gray';
+  $('lbl-net').textContent='Conexión: verificando…';
+  fetch('https://api.anthropic.com',{method:'HEAD',mode:'no-cors'})
+    .then(()=>{$('dot-net').className='admin-dot green';$('lbl-net').textContent='Conexión a internet: OK ✓';})
+    .catch(()=>{$('dot-net').className='admin-dot red';$('lbl-net').textContent='Sin conexión a internet';});
+  // Clear status
+  const s=$('admin-api-status');s.className='admin-status';s.textContent='';
+}
+
+function saveApiKey(){
+  const val=$('admin-apikey').value.trim();
+  const s=$('admin-api-status');
+  if(!val){s.className='admin-status err';s.textContent='Ingresa una clave válida antes de guardar.';return;}
+  if(!val.startsWith('sk-ant-')){s.className='admin-status err';s.textContent='La clave debe empezar con sk-ant-…';return;}
+  localStorage.setItem(LS_KEY,val);
+  s.className='admin-status ok';s.textContent='✅ Clave guardada exitosamente. El OCR de trazos ya está activo.';
+  loadAdminStatus();refreshDrawButtons();
+}
+
+function clearApiKey(){
+  if(!confirm('¿Seguro que quieres borrar la clave API? El OCR de trazos se desactivará.')) return;
+  localStorage.removeItem(LS_KEY);
+  $('admin-apikey').value='';
+  const s=$('admin-api-status');s.className='admin-status info';s.textContent='Clave eliminada. Las preguntas de trazo no podrán evaluarse automáticamente.';
+  loadAdminStatus();refreshDrawButtons();
+}
+
+async function testApiKey(){
+  const val=$('admin-apikey').value.trim()||getApiKey();
+  const s=$('admin-api-status');
+  if(!val){s.className='admin-status err';s.textContent='No hay clave para probar. Ingresa una clave primero.';return;}
+  s.className='admin-status info';s.textContent='⏳ Probando conexión con Anthropic…';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':val},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:10,messages:[{role:'user',content:'Di solo: OK'}]})
+    });
+    const d=await r.json();
+    if(d.content){s.className='admin-status ok';s.textContent='✅ Conexión exitosa. La clave funciona correctamente.';}
+    else if(d.error){s.className='admin-status err';s.textContent='❌ Error: '+d.error.message;}
+  }catch(e){s.className='admin-status err';s.textContent='❌ Error de conexión: '+e.message;}
+}
+
+function changeAdminPwd(){
+  const p1=$('admin-newpwd').value, p2=$('admin-newpwd2').value;
+  const s=$('pwd-status');
+  if(p1.length<4){s.className='admin-status err';s.textContent='La contraseña debe tener al menos 4 caracteres.';return;}
+  if(p1!==p2){s.className='admin-status err';s.textContent='Las contraseñas no coinciden.';return;}
+  localStorage.setItem(LS_PWD,p1);
+  s.className='admin-status ok';s.textContent='✅ Contraseña cambiada exitosamente.';
+  $('admin-newpwd').value='';$('admin-newpwd2').value='';
+}
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+function pick(arr,n){return shuffle(arr).slice(0,Math.min(n,arr.length));}
+
+// ─── GLOBAL MODE ───────────────────────────────
+function setGlobalMode(m){
+  if(m==='draw' && !getApiKey()){
+    showNoKeyWarning();
+    return;
+  }
+  globalMode=m;
+  $('gm-text').className='gm-btn'+(m==='text'?' on':'');
+  $('gm-draw').className='gm-btn'+(m==='draw'?' on':'');
+  inputMode={};
+  if(exam.length>0) renderView();
+}
+
+function showNoKeyWarning(){
+  // Flash a small tooltip near the draw button
+  let tip=document.getElementById('no-key-tip');
+  if(!tip){
+    tip=document.createElement('div');
+    tip.id='no-key-tip';
+    tip.style.cssText='position:fixed;top:64px;right:16px;background:#1a1a1a;color:#fff;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;font-family:Nunito,sans-serif;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.3);display:flex;align-items:center;gap:10px;max-width:300px;line-height:1.4';
+    tip.innerHTML='🔑 Necesitas configurar la clave API para usar el trazo.<br><span style="font-weight:600;opacity:.8">Ve a ⚙️ para configurarla.</span>';
+    document.body.appendChild(tip);
+  }
+  tip.style.display='flex';
+  clearTimeout(tip._t);
+  tip._t=setTimeout(()=>{tip.style.display='none';},3500);
+}
+
+// ─── BUILD EXAM ────────────────────────────────
+function buildExam(){
+  // ── OBLIGATORIAS: 1 de cada tipo (12 tipos × 1 = 12 preguntas base) ──
+  // Problema: garantiza al menos 1 de cada subtipo (mult, resta, suma, doble/mitad)
+  const probMult   = pick(BANK.problem.filter(p=>p.subtype==='mult'),1)[0];
+  const probResta  = pick(BANK.problem.filter(p=>p.subtype==='resta'),1)[0];
+  const probSuma   = pick(BANK.problem.filter(p=>p.subtype==='suma'),1)[0];
+  const probDH     = pick(BANK.problem.filter(p=>p.subtype==='doble'||p.subtype==='mitad'),1)[0];
+  const mandatoryProbs = [probMult,probResta,probSuma,probDH].filter(Boolean);
+
+  const mandatory = [
+    {...pick(BANK.mental_calc,1)[0],      type:'mental_calc',       topic:'Cálculo Mental'},
+    {...pick(BANK.unit_write,1)[0],       type:'unit_write',         topic:'Unidades de Medición'},
+    {...pick(BANK.unit_weights,1)[0],     type:'unit_weights',       topic:'Unidades de Medición'},
+    {...pick(BANK.cascade_sub,1)[0],      type:'cascade_sub',        topic:'Resta en Cascada'},
+    {...pick(BANK.serie_circles,1)[0],    type:'serie_circles',      topic:'Seriaciones'},
+    {...pick(BANK.serie_chain,1)[0],      type:'serie_chain',        topic:'Seriaciones'},
+    {...pick(BANK.serie_resta,1)[0],      type:'serie_resta',        topic:'Seriaciones'},
+    {...pick(BANK.fraction_fill,1)[0],    type:'fraction_fill',      topic:'Fracciones'},
+    {...pick(BANK.fraction_classify,1)[0],type:'fraction_classify',  topic:'Fracciones'},
+    {...pick(BANK.double_half,1)[0],      type:'double_half',        topic:'Doble y Mitad'},
+    {...pick(BANK.clock,1)[0],            type:'clock',              topic:'El Reloj'},
+    ...mandatoryProbs.map(q=>({...q,     type:'problem',            topic:'Resolución de Problemas'})),
+  ]; // 11 + 4 = 15 preguntas obligatorias
+
+  // ── RELLENO: 5 preguntas extras aleatorias para llegar a 20 ──
+  const usedIds = new Set(mandatory.map(q=>q.enunciado||q.story||q.a||q.start||JSON.stringify(q.sequence)));
+
+  const pool = [
+    ...BANK.mental_calc    .map(q=>({...q,type:'mental_calc',       topic:'Cálculo Mental'})),
+    ...BANK.unit_write     .map(q=>({...q,type:'unit_write',         topic:'Unidades de Medición'})),
+    ...BANK.unit_weights   .map(q=>({...q,type:'unit_weights',       topic:'Unidades de Medición'})),
+    ...BANK.cascade_sub    .map(q=>({...q,type:'cascade_sub',        topic:'Resta en Cascada'})),
+    ...BANK.serie_circles  .map(q=>({...q,type:'serie_circles',      topic:'Seriaciones'})),
+    ...BANK.serie_chain    .map(q=>({...q,type:'serie_chain',        topic:'Seriaciones'})),
+    ...BANK.serie_resta    .map(q=>({...q,type:'serie_resta',        topic:'Seriaciones'})),
+    ...BANK.fraction_fill  .map(q=>({...q,type:'fraction_fill',      topic:'Fracciones'})),
+    ...BANK.fraction_classify.map(q=>({...q,type:'fraction_classify',topic:'Fracciones'})),
+    ...BANK.double_half    .map(q=>({...q,type:'double_half',        topic:'Doble y Mitad'})),
+    ...BANK.problem        .map(q=>({...q,type:'problem',            topic:'Resolución de Problemas'})),
+    ...BANK.clock          .map(q=>({...q,type:'clock',              topic:'El Reloj'})),
+  ].filter(q=>{
+    // Exclude questions already in mandatory (by key property)
+    const key = q.enunciado||q.story||q.a||q.start||JSON.stringify(q.sequence||'');
+    return !usedIds.has(key);
+  });
+
+  const extras = pick(pool, 20 - mandatory.length)
+    .map(q=>({...q}));
+
+  // ── COMBINAR, MEZCLAR, NUMERAR ──
+  const all = shuffle([...mandatory, ...extras]).slice(0,20);
+  return all.map((q,i)=>({...q, id:i+1}));
+}
+
+function newExam(){
+  evaluated=false;
+  exam=buildExam();
+  answers={};canvasData={};inputMode={};currentQ=0;
+  $('intro').style.display='none';
+  $('score-panel').style.display='none';
+  $('btn-eval').disabled=false;
+  $('view-toggle').style.display='flex';
+  setView('all');
+}
+
+function setView(v){
+  viewMode=v;
+  $('vt-all').className='vtbtn'+(v==='all'?' on':'');
+  $('vt-one').className='vtbtn'+(v==='one'?' on':'');
+  renderView();
+}
+function renderView(){
+  const qa=$('qa');qa.innerHTML='';
+  if(viewMode==='all'){
+    $('q-counter').style.display='none';$('prog-bar-wrap').style.display='none';
+    $('nav-row').style.display='none';$('submit-row').style.display='block';
+    let lastT='';
+    exam.forEach(q=>{
+      if(q.topic!==lastT){lastT=q.topic;const d=document.createElement('div');d.className='topic-div';d.innerHTML=`<div class="tdl"></div><div class="tdlbl">${q.topic}</div><div class="tdl"></div>`;qa.appendChild(d);}
+      qa.appendChild(buildCard(q));
+    });
+  } else {
+    $('q-counter').style.display='block';$('prog-bar-wrap').style.display='block';
+    $('submit-row').style.display='none';$('nav-row').style.display='flex';
+    renderOneQ();
+  }
+  setTimeout(()=>exam.forEach(q=>setupCanvas(q)),60);
+  if(evaluated) markResults();
+}
+function renderOneQ(){
+  const qa=$('qa');qa.innerHTML='';
+  const q=exam[currentQ];
+  $('q-counter').textContent=`Pregunta ${currentQ+1} de ${exam.length}`;
+  $('prog-bar').style.width=((currentQ+1)/exam.length*100)+'%';
+  qa.appendChild(buildCard(q));
+  $('nav-prev').style.visibility=currentQ===0?'hidden':'visible';
+  const last=currentQ===exam.length-1;
+  $('nav-next').textContent=last?'✅ Terminar':'Siguiente →';
+  $('nav-next').onclick=last?evalExam:()=>navQ(1);
+  setTimeout(()=>setupCanvas(q),60);
+  if(evaluated) markResults();
+}
+function navQ(d){currentQ=Math.max(0,Math.min(exam.length-1,currentQ+d));renderOneQ();window.scrollTo({top:0,behavior:'smooth'});}
+
+// ═══════════════════════════════════════════════════════
+//  BUILDERS
+// ═══════════════════════════════════════════════════════
+function getMode(id){return inputMode[id]!==undefined?inputMode[id]:globalMode;}
+
+function buildCard(q){
+  const card=document.createElement('div');card.className='qcard';card.id='card-'+q.id;
+  const m=getMode(q.id);
+  const hasKey=!!getApiKey();
+  const drawDisabled=!hasKey;
+  const drawStyle=drawDisabled?'opacity:.4;cursor:not-allowed;':'';
+  const drawTitle=drawDisabled?'title="Configura la clave API en ⚙️ para usar el trazo"':'';
+  const toggle=`<div class="mode-row">
+    <button class="mbtn${m==='text'?' on':''}" onclick="setMode(${q.id},'text')">⌨️ Teclado</button>
+    <button class="mbtn${m==='draw'?' on':''}" onclick="setMode(${q.id},'draw')" style="${drawStyle}" ${drawTitle}>✏️ Trazo${drawDisabled?' 🔒':''}</button>
+  </div>`;
+  const map={mental_calc:bMentalCalc,unit_write:bUnitWrite,unit_weights:bUnitWeights,
+    cascade_sub:bCascade,serie_circles:bSerieCircles,serie_chain:bSerieChain,
+    serie_resta:bSerieResta,fraction_fill:bFracFill,fraction_classify:bFracClassify,
+    double_half:bDoubleHalf,problem:bProblem,clock:bClock};
+  const fn=map[q.type]||((q,m,t)=>t+drawOrText(q,m));
+  const qLabel=q.enunciado?`Resuelve mentalmente:`:q.q||'';
+  card.innerHTML=`<div class="q-header"><div class="q-badge">${q.id}</div><div style="flex:1"><div class="q-tag">${q.topic}</div><div class="q-text">${q.q||qLabel}</div></div></div><div class="q-body">${fn(q,m,toggle)}</div>`;
+  return card;
+}
+
+// cvEl(q, sub) — sub is optional suffix for multi-field canvases (e.g. 0,1,2)
+function cvEl(q, sub){
+  const key = sub!==undefined ? q.id+'_'+sub : q.id;
+  const label = sub!==undefined ? ' '+(sub+1) : '';
+  return `<div class="cv-wrap" style="margin-bottom:8px">
+    <div style="font-size:12px;font-weight:800;color:var(--gd);padding:5px 10px 2px;background:var(--gb)">✏️ Campo${label}</div>
+    <canvas class="drawpad" id="cv_${key}" width="800" height="130"></canvas>
+    <div class="cv-bar"><button onclick="clearCv('${key}')">🗑️ Borrar</button><span class="cv-hint">Escribe con lápiz o dedo</span></div>
+  </div>`;
+}
+function drawOrText(q,m){return m==='draw'?cvEl(q):`<textarea id="ans_${q.id}" class="ans-box" rows="2" placeholder="Escribe tu respuesta…"></textarea>`;}
+
+// Cálculo Mental
+function bMentalCalc(q,m,toggle){
+  const ans=m==='draw'?'':`<input id="ans_${q.id}" class="calc-ans" type="text" inputmode="numeric" placeholder="?">`;
+  const cv=m==='draw'?`<div style="margin-top:12px">${cvEl(q,0)}</div>`:'';
+  return `<div class="calc-box"><span class="calc-text">${q.enunciado} =</span>${ans}</div>${cv}${toggle}`;
+}
+
+// Unidades escritas — selección múltiple por fila
+function bUnitWrite(q,m,toggle){
+  const opts=['litro','kilo','metro'];
+  const rows=q.rows.map((r,i)=>{
+    const btns=opts.map(o=>`<button class="unit-opt" id="uopt_${q.id}_${i}_${o}" onclick="selectUnit(${q.id},${i},'${o}')">${o}</button>`).join('');
+    return `<div class="unit-mc-row"><div class="unit-emoji-big">${r.emoji}</div><div><div style="font-size:15px;font-weight:700;color:var(--muted);margin-bottom:6px">${r.label}</div><div class="unit-options">${btns}</div></div></div>`;
+  }).join('');
+  return `<div>${rows}</div>`;
+}
+function selectUnit(qid,row,val){
+  ['litro','kilo','metro'].forEach(o=>{
+    const el=document.getElementById('uopt_'+qid+'_'+row+'_'+o);
+    if(el) el.className='unit-opt'+(o===val?' selected':'');
+  });
+}
+
+// Pesas — selección múltiple
+function bUnitWeights(q,m,toggle){
+  let ws='';
+  q.groups.forEach(g=>{for(let i=0;i<g.n;i++) ws+=`<div class="weight-item">${g.type==='kilo'?svgKilo():svgMedio()}<div class="weight-lbl">${g.type==='kilo'?'1 kilo':'½ kilo'}</div></div>`;});
+  const btns=q.options.map(o=>`<button class="weights-opt" id="wopt_${q.id}_${o.replace(/\s/g,'_')}" onclick="selectWeight(${q.id},'${o}')">${o}</button>`).join('');
+  return `<div class="weights-scene">${ws}</div><div class="hay-row"><span>¿Cuánto hay en total?</span></div><div class="weights-opts">${btns}</div>`;
+}
+function selectWeight(qid,val){
+  const q=exam.find(q=>q.id===qid);if(!q)return;
+  q.options.forEach(o=>{
+    const el=document.getElementById('wopt_'+qid+'_'+o.replace(/\s/g,'_'));
+    if(el) el.className='weights-opt'+(o===val?' selected':'');
+  });
+}
+
+function svgKilo(){return `<svg width="68" height="78" viewBox="0 0 68 78"><rect x="4" y="30" width="60" height="44" rx="10" fill="#ccc" stroke="#888" stroke-width="2"/><rect x="23" y="14" width="22" height="18" rx="5" fill="#aaa" stroke="#888" stroke-width="2"/><rect x="28" y="4" width="12" height="14" rx="4" fill="#999" stroke="#777" stroke-width="2"/><text x="34" y="56" text-anchor="middle" font-size="13" font-weight="900" font-family="Nunito,sans-serif" fill="#333">KILO</text></svg>`;}
+function svgMedio(){return `<svg width="54" height="62" viewBox="0 0 54 62"><rect x="3" y="24" width="48" height="34" rx="8" fill="#e0e0e0" stroke="#999" stroke-width="2"/><rect x="18" y="12" width="18" height="14" rx="4" fill="#bbb" stroke="#999" stroke-width="2"/><rect x="22" y="3" width="10" height="12" rx="3" fill="#aaa" stroke="#888" stroke-width="2"/><text x="27" y="44" text-anchor="middle" font-size="11" font-weight="900" font-family="Nunito,sans-serif" fill="#444">½ kg</text></svg>`;}
+
+// ── RESTA EN CASCADA — estructura idéntica a la foto ──
+// Foto: 3 cajas arriba (38,15,26) → flechas curvas → 2 cajas (23,11) → flecha → 1 caja (12)
+// Pero en el examen: las cajas de resultados son blancos para llenar
+function bCascade(q,m,toggle){
+  const res=m==='draw'?`<div style="margin-top:6px">${cvEl(q,0)}</div>`:`<input class="casc-input" id="ans_${q.id}" type="text" inputmode="numeric" placeholder="?">`;
+  // Classic vertical cascade exactly like photo
+  return `<div class="cascade-tree">
+    <!-- fila top: minuendo y sustraendo en cajas -->
+    <div class="casc-row-top">
+      <div class="casc-box" style="font-size:30px">${q.a}</div>
+    </div>
+    <!-- SVG arrow pointing down -->
+    <svg width="30" height="28" viewBox="0 0 30 28" style="overflow:visible">
+      <line x1="15" y1="0" x2="15" y2="20" stroke="#aaa" stroke-width="2" stroke-dasharray="4,3"/>
+      <polygon points="9,18 21,18 15,26" fill="#aaa"/>
+    </svg>
+    <!-- fila mid: operación -->
+    <div class="casc-box" style="min-width:160px;align-items:flex-end">
+      <span style="font-size:14px;color:var(--muted);font-family:Nunito,sans-serif;align-self:flex-end;margin-bottom:2px">− ${q.b}</span>
+      <div style="width:100%;border-top:3px solid #555;margin:4px 0"></div>
+      ${res}
+    </div>
+  </div>${toggle}`;
+}
+
+// ── SERIACIÓN CÍRCULOS ── (idéntico a foto 1)
+function bSerieCircles(q,m,toggle){
+  let blankIdx=0;
+  const items=q.sequence.map((item)=>{
+    if(!item.show){
+      const bi=blankIdx++;
+      return m==='draw'
+        ?`<div class="sc-blank" style="border:3px solid var(--g);background:#f9fffc;display:inline-flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;width:56px;height:56px;border-radius:50%">?</div>`
+        :`<input type="text" inputmode="numeric" id="sc_${q.id}_${bi}" class="sc-blank" placeholder="?">`;
+    }
+    const n=item.n, balls=Array.from({length:Math.min(n,10)},()=>`<div class="ball f"></div>`).join('');
+    const plus=n>10?`<span style="font-size:12px;font-weight:800">+${n-10}</span>`:'';
+    return `<div class="sc-group"><span class="sc-num">${n}</span><div class="sc-balls">${balls}${plus}</div></div>`;
+  });
+  const rows=items.map((h,i)=>i<items.length-1?h+`<span class="sc-arrow">▶</span>`:h);
+  // In draw mode, add one canvas per blank below the series
+  let drawPads='';
+  if(m==='draw'){
+    const nb=q.sequence.filter(s=>!s.show).length;
+    for(let i=0;i<nb;i++) drawPads+=cvEl(q,i);
+  }
+  return `<div class="serie-circ-wrap"><div class="serie-rule-tag">🔁 Regla: ${q.rule}</div><div class="serie-circ-row">${rows.join('')}</div></div>${drawPads?`<div style="margin-top:12px">${drawPads}</div>`:''}${toggle}`;
+}
+
+// ── SERIACIÓN CADENA PAR/IMPAR ── (foto 2)
+function bSerieChain(q,m,toggle){
+  const ruleBoxes=q.rules.map(r=>`<div class="chain-rule-box">${r}</div>`).join('');
+  let bi=0;
+  const boxes=q.sequence.map((v,i)=>{
+    const isLast=i===q.sequence.length-1;
+    const sep=i>0?`<span class="chain-arr">▶</span>`:'';
+    if(v===null){
+      const idx=bi++;
+      const blank=m==='draw'
+        ?`<div class="chain-box" style="border:2.5px solid var(--g);background:#f9fffc;min-width:64px">?</div>`
+        :`<input type="text" inputmode="numeric" id="ch_${q.id}_${idx}" class="chain-blank" placeholder="?">`;
+      return sep+blank;
+    }
+    return sep+`<div class="chain-box${isLast?' chain-end-box':''}">${v}</div>`;
+  }).join('');
+  const nb2=q.sequence.filter(v=>v===null).length;
+  let drawPads2='';
+  if(m==='draw') for(let i=0;i<nb2;i++) drawPads2+=cvEl(q,i);
+  return `<div class="serie-chain-wrap"><div class="chain-rules">${ruleBoxes}</div><div class="chain-row">${boxes}</div></div>${drawPads2?`<div style="margin-top:12px">${drawPads2}</div>`:''}${toggle}`;
+}
+
+// ── SERIACIÓN ÁRBOL DE RESTA ── (foto: 38,15,26 → 23,11 → 12)
+function bSerieResta(q,m,toggle){
+  const [t0,t1,t2]=q.tops, r=q.resta;
+  let bi=0;
+  // In draw mode we render the blanks as dashed boxes AND add canvases below
+  const blank=(idx)=>m==='draw'
+    ?`<div class="casc-box answer" style="min-width:70px;border-style:dashed;color:var(--g);font-size:14px;font-weight:800">${idx+1}</div>`
+    :`<div class="casc-box answer"><input type="text" inputmode="numeric" id="srb_${q.id}_${idx}" class="casc-input" placeholder="?"></div>`;
+
+  // SVG with curved arrows from top boxes to mid boxes (like the photo)
+  const arrowsSVG=`<svg class="casc-arrows-top" height="38" viewBox="0 0 380 38" style="max-width:380px;display:block;margin:0 auto">
+    <!-- arrow from box0 (left ~70) to result0 (left ~100) -->
+    <path d="M 80 4 Q 80 30 130 32" stroke="#aaa" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+    <polygon points="126,28 136,34 124,36" fill="#aaa"/>
+    <!-- label "38−15=" -->
+    <text x="82" y="22" font-size="11" fill="#888" font-family="Nunito,sans-serif">${t0}−${r}=</text>
+    <!-- arrow from box2 (right ~300) to result1 -->
+    <path d="M 300 4 Q 300 30 250 32" stroke="#aaa" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+    <polygon points="254,28 244,34 256,36" fill="#aaa"/>
+    <!-- label "26−15=" -->
+    <text x="248" y="22" font-size="11" fill="#888" font-family="Nunito,sans-serif">${t2}−${r}=</text>
+  </svg>`;
+
+  const arrowMidSVG=`<svg class="casc-arrows-mid" height="34" viewBox="0 0 240 34" style="max-width:240px;display:block;margin:0 auto">
+    <path d="M 80 2 Q 120 20 120 28" stroke="#aaa" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+    <path d="M 160 2 Q 120 20 120 28" stroke="#aaa" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+    <polygon points="116,25 124,25 120,33" fill="#aaa"/>
+    <text x="60" y="18" font-size="11" fill="#888" font-family="Nunito,sans-serif">−</text>
+  </svg>`;
+
+  const drawPads3=m==='draw'?[0,1,2].map(i=>cvEl(q,i)).join(''):'';
+  return `<div class="sresta-wrap">
+    <div class="casc-row-top" style="justify-content:center;gap:12px">
+      <div class="casc-box">${t0}</div>
+      <div class="casc-box">${t1}</div>
+      <div class="casc-box">${t2}</div>
+    </div>
+    ${arrowsSVG}
+    <div class="casc-row-mid" style="justify-content:center;gap:40px">
+      ${blank(bi++)}
+      ${blank(bi++)}
+    </div>
+    ${arrowMidSVG}
+    <div class="casc-row-bot">
+      ${blank(bi++)}
+    </div>
+  </div>${drawPads3?`<div style="margin-top:12px">${drawPads3}</div>`:""}${toggle}`;
+}
+
+// Fracciones fill — one canvas per blank in draw mode
+function bFracFill(q,m,toggle){
+  const rows=q.blanks.map((b,i)=>{
+    const inp=m==='draw'
+      ?cvEl(q,i)
+      :`<div class="frac-fill-row">${b} <input id="ff_${q.id}_${i}" class="frac-blank" type="text" placeholder="__/__"></div>`;
+    if(m==='draw') return `<div class="frac-fill-row" style="flex-direction:column;align-items:flex-start;gap:6px"><span>${b}</span>${inp}</div>`;
+    return inp;
+  }).join('');
+  return `<div class="frac-story">📝 ${q.story}</div>${rows}${toggle}`;
+}
+
+// Fracciones classify — one canvas per fraction in draw mode
+function bFracClassify(q,m,toggle){
+  const items=q.fracs.map((f,i)=>{
+    const fh=f.m!=null
+      ?`<span class="frac-whole">${f.m}</span><span class="frac-disp"><span class="fn">${f.n}</span><span class="fd">${f.d}</span></span>`
+      :`<span class="frac-disp"><span class="fn">${f.n}</span><span class="fd">${f.d}</span></span>`;
+    const inp=m==='draw'
+      ?cvEl(q,i)
+      :`<input id="fc_${q.id}_${i}" class="frac-type-input" type="text" placeholder="tipo">`;
+    return `<div class="frac-cls-item">${fh}${inp}</div>`;
+  }).join('');
+  return `<div class="frac-cls-grid">${items}</div>${toggle}`;
+}
+
+// Doble y Mitad
+function bDoubleHalf(q,m,toggle){
+  let html=`<div class="dh-chain"><div class="dh-box">${q.start}</div>`;
+  q.ops.forEach((op,i)=>{
+    html+=`<span class="dh-arr">▶</span><div class="dh-op">${op.label}</div><span class="dh-arr">▶</span>`;
+    if(i===q.ops.length-1){
+      html+=m==='draw'
+        ?`<div class="dh-box" style="border:2.5px solid var(--g);background:#f9fffc;min-width:88px">&nbsp;</div>`
+        :`<input id="ans_${q.id}" class="dh-blank" type="text" inputmode="numeric" placeholder="?">`;
+    } else {
+      html+=`<div class="dh-box" style="border:2px dashed #aaa;background:#f5f5f5;min-width:66px">&nbsp;</div>`;
+    }
+  });
+  html+='</div>';
+  const cv=m==='draw'?`<div style="margin-top:12px">${cvEl(q,0)}</div>`:'';
+  return html+cv+toggle;
+}
+
+// Problemas — con formato vertical exacto de la foto (28 × 5 = 140)
+function bProblem(q,m,toggle){
+  const inp=m==='draw'?cvEl(q,0):`<input id="ans_${q.id}" class="prob-ans" type="text" inputmode="numeric" placeholder="?">`;
+  return `<div class="prob-story">📝 ${q.story}</div>
+    <div class="prob-vertical">
+      <div>${q.a}</div>
+      <div>${q.op} ${q.b}</div>
+      <div class="prob-vline"></div>
+      ${inp}
+    </div>
+    <div class="prob-r-label" id="rlbl_${q.id}"></div>
+    ${toggle}`;
+}
+
+// Reloj — one canvas per clock in draw mode
+function bClock(q,m,toggle){
+  const clocks=q.clocks.map((c,i)=>{
+    const inp=m==='draw'
+      ?`<div style="margin-top:8px;width:100%">${cvEl(q,i)}</div>`
+      :`<input id="cl_${q.id}_${i}" class="ans-line" type="text" placeholder="__:__" style="margin-top:6px">`;
+    return `<div class="clock-item">${clockSVG(c.h,c.m)}<div class="clock-qlbl">${q.questions[i]}</div>${inp}</div>`;
+  }).join('');
+  return `<div class="clock-story">${q.story}</div><div class="clock-scene">${clocks}</div>${toggle}`;
+}
+
+function clockSVG(h,mn){
+  const cx=80,cy=80,r=70;
+  const ang=d=>(d-90)*Math.PI/180;
+  const mA=ang((mn/60)*360),hA=ang(((h%12)+mn/60)*30);
+  const mx=cx+Math.cos(mA)*56,my=cy+Math.sin(mA)*56;
+  const hx=cx+Math.cos(hA)*38,hy=cy+Math.sin(hA)*38;
+  let ticks='',nums='';
+  for(let i=0;i<12;i++){const a=ang(i*30),big=i%3===0;ticks+=`<line x1="${(cx+Math.cos(a)*(big?60:64)).toFixed(1)}" y1="${(cy+Math.sin(a)*(big?60:64)).toFixed(1)}" x2="${(cx+Math.cos(a)*70).toFixed(1)}" y2="${(cy+Math.sin(a)*70).toFixed(1)}" stroke="#555" stroke-width="${big?2.5:1.5}"/>`;}
+  [12,1,2,3,4,5,6,7,8,9,10,11].forEach((n,i)=>{const a=ang(i*30);nums+=`<text x="${(cx+Math.cos(a)*50).toFixed(1)}" y="${(cy+Math.sin(a)*50+5).toFixed(1)}" text-anchor="middle" font-size="12" font-weight="800" font-family="Nunito" fill="#222">${n}</text>`;});
+  return `<svg width="160" height="160" viewBox="0 0 160 160" style="filter:drop-shadow(0 2px 6px rgba(0,0,0,.1))"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#fafff8" stroke="#ccc" stroke-width="2"/>${ticks}${nums}<line x1="${cx}" y1="${cy}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}" stroke="#222" stroke-width="5" stroke-linecap="round"/><line x1="${cx}" y1="${cy}" x2="${mx.toFixed(1)}" y2="${my.toFixed(1)}" stroke="#1D9E75" stroke-width="3" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="5" fill="#1D9E75"/></svg>`;
+}
+
+// ═══════════════════════════════════════════════════════
+//  CANVAS
+// ═══════════════════════════════════════════════════════
+function setupCanvasById(key){
+  const cv=document.getElementById('cv_'+key);if(!cv)return;
+  const ctx=cv.getContext('2d');
+  ctx.strokeStyle='#0c6e4f';ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';
+  if(canvasData[key]){const img=new Image();img.onload=()=>ctx.drawImage(img,0,0,cv.width,cv.height);img.src=canvasData[key];}
+  let drw=false,lx=0,ly=0;
+  const pos=e=>{const rc=cv.getBoundingClientRect(),sx=cv.width/rc.width,sy=cv.height/rc.height;return e.touches?[(e.touches[0].clientX-rc.left)*sx,(e.touches[0].clientY-rc.top)*sy]:[(e.clientX-rc.left)*sx,(e.clientY-rc.top)*sy];};
+  cv.addEventListener('mousedown',e=>{drw=true;[lx,ly]=pos(e);});
+  cv.addEventListener('touchstart',e=>{e.preventDefault();drw=true;[lx,ly]=pos(e);},{passive:false});
+  const draw=e=>{if(!drw)return;if(e.touches)e.preventDefault();const[x,y]=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(x,y);ctx.stroke();[lx,ly]=[x,y];canvasData[key]=cv.toDataURL();};
+  cv.addEventListener('mousemove',draw);cv.addEventListener('touchmove',draw,{passive:false});
+  const stop=()=>{drw=false;};
+  cv.addEventListener('mouseup',stop);cv.addEventListener('touchend',stop);cv.addEventListener('mouseleave',stop);
+}
+// Setup all canvases for a question (simple + multi-sub)
+function setupCanvas(q){
+  setupCanvasById(q.id);
+  for(let i=0;i<10;i++){const el=document.getElementById('cv_'+q.id+'_'+i);if(el) setupCanvasById(q.id+'_'+i); else break;}
+}
+function clearCv(key){const cv=document.getElementById('cv_'+key);if(cv){cv.getContext('2d').clearRect(0,0,cv.width,cv.height);canvasData[key]=null;}}
+function setMode(id,mode){
+  if(mode==='draw' && !getApiKey()){
+    showNoKeyWarning();
+    return;
+  }
+  inputMode[id]=mode;
+  const q=exam.find(q=>q.id===id);if(!q)return;
+  const old=document.getElementById('card-'+id);
+  old.replaceWith(buildCard(q));
+  setTimeout(()=>setupCanvas(q),40);
+}
+
+// ═══════════════════════════════════════════════════════
+//  RECOLECTAR RESPUESTAS
+// ═══════════════════════════════════════════════════════
+function getAnswer(q){
+  const m=getMode(q.id);
+  if(m==='draw'){
+    // Check for multi-sub canvases first
+    const subs=[];
+    for(let i=0;i<10;i++){const k=q.id+'_'+i;if(document.getElementById('cv_'+k)){subs.push(canvasData[k]?'[trazo'+i+']':'');} else break;}
+    if(subs.length>0) return subs.join(',');
+    return canvasData[q.id]?'[trazo]':'';
+  }
+  if(q.type==='unit_write')
+    return q.rows.map((_,i)=>{const sel=['litro','kilo','metro'].find(o=>document.getElementById('uopt_'+q.id+'_'+i+'_'+o)?.classList.contains('selected'));return sel||'';}).join(',');
+  if(q.type==='unit_weights'){
+    const sel=q.options.find(o=>document.getElementById('wopt_'+q.id+'_'+o.replace(/\s/g,'_'))?.classList.contains('selected'));return sel||'';}
+  if(q.type==='serie_circles'){let bi=0;return q.sequence.filter(s=>!s.show).map(()=>(document.getElementById('sc_'+q.id+'_'+bi++)||{value:''}).value.trim()).join(',');}
+  if(q.type==='serie_chain'){let bi=0;return q.sequence.map(v=>v===null?(document.getElementById('ch_'+q.id+'_'+bi++)||{value:''}).value.trim():null).filter(x=>x!==null).join(',');}
+  if(q.type==='serie_resta') return [0,1,2].map(i=>(document.getElementById('srb_'+q.id+'_'+i)||{value:''}).value.trim()).join(',');
+  if(q.type==='fraction_fill') return q.blanks.map((_,i)=>(document.getElementById('ff_'+q.id+'_'+i)||{value:''}).value.trim()).join(',');
+  if(q.type==='fraction_classify') return q.fracs.map((_,i)=>(document.getElementById('fc_'+q.id+'_'+i)||{value:''}).value.trim().toLowerCase()).join(',');
+  if(q.type==='clock') return q.clocks.map((_,i)=>(document.getElementById('cl_'+q.id+'_'+i)||{value:''}).value.trim()).join(',');
+  const el=document.getElementById('ans_'+q.id);return el?el.value.trim():'';
+}
+
+// ═══════════════════════════════════════════════════════
+//  EVALUAR — con OCR de trazos via Anthropic
+// ═══════════════════════════════════════════════════════
+function norm(s){return(s||'').toLowerCase().trim().replace(/\s+/g,'').replace(/y media/,':30').replace(/ymedia/,':30');}
+
+function checkAns(q,ans){
+  const exp=norm(q.expected), got=norm(ans);
+  if(exp===got) return true;
+  // Accept comma-separated answers in any order for some types
+  const expParts=exp.split(','), gotParts=got.split(',');
+  if(expParts.length===gotParts.length && expParts.every((e,i)=>e===gotParts[i])) return true;
+  if(q.type==='fraction_classify'){
+    const ea=q.fracs.map(f=>f.t);
+    const ga=ans.split(',').map(s=>s.trim().toLowerCase());
+    return ea.every((e,i)=>e===ga[i]);
+  }
+  return false;
+}
+
+// Collect all canvas images that need OCR: {key, imageData}
+function collectDrawnCanvases(){
+  const result=[];
+  exam.forEach(q=>{
+    const m=getMode(q.id);
+    if(m!=='draw') return;
+    // multi-sub canvases
+    let found=false;
+    for(let i=0;i<10;i++){
+      const k=String(q.id)+'_'+i;
+      if(document.getElementById('cv_'+k)){
+        if(canvasData[k]) result.push({qid:q.id, key:k, sub:i, imageData:canvasData[k]});
+        found=true;
+      } else break;
+    }
+    // single canvas
+    if(!found && canvasData[q.id]){
+      result.push({qid:q.id, key:String(q.id), sub:null, imageData:canvasData[q.id]});
+    }
+  });
+  return result;
+}
+
+// OCR a single canvas image using Anthropic vision
+async function ocrCanvas(imageData){
+  const apiKey=getApiKey();
+  if(!apiKey) return ''; // No key, skip OCR
+  const b64=imageData.split(',')[1];
+  try {
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true',
+        'x-api-key':apiKey
+      },
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:60,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:'image/png',data:b64}},
+          {type:'text',text:'Esta imagen contiene un número, fracción o palabra corta escrita a mano por un niño de primaria como respuesta a un ejercicio de matemáticas. Transcribe EXACTAMENTE lo que escribió. Si es una fracción escríbela como número/número (ej: 2/8). Si es una hora escríbela como HH:MM. Solo el valor, sin explicación, sin puntos, sin comillas.'}
+        ]}]
+      })
+    });
+    const d=await r.json();
+    return (d.content||[]).map(b=>b.text||'').join('').trim();
+  } catch(e){ return ''; }
+}
+
+// Show a loading overlay on the status area
+function showOcrStatus(msg){
+  let bar=document.getElementById('ocr-status');
+  if(!bar){bar=document.createElement('div');bar.id='ocr-status';bar.style.cssText='position:fixed;bottom:20px;right:20px;background:#0c6e4f;color:#fff;border-radius:12px;padding:14px 20px;font-size:15px;font-weight:700;font-family:Nunito,sans-serif;z-index:9999;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.3)';document.body.appendChild(bar);}
+  bar.innerHTML=`<div style="width:18px;height:18px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0"></div><span>${msg}</span>`;
+  bar.style.display='flex';
+}
+function hideOcrStatus(){const b=document.getElementById('ocr-status');if(b)b.style.display='none';}
+
+async function evalExam(){
+  evaluated=true;
+  $('btn-eval').disabled=true;
+  if($('btn-submit')) $('btn-submit').disabled=true;
+
+  // --- Step 1: OCR all drawn canvases ---
+  const drawn=collectDrawnCanvases();
+  const ocrMap={}; // key -> recognized text
+
+  if(drawn.length>0 && !getApiKey()){
+    // No API key — warn user and evaluate with empty drawn answers
+    showOcrStatus('⚠️ Sin clave API: los trazos no se pueden leer. Configura la API en ⚙️');
+    setTimeout(hideOcrStatus, 4000);
+  }
+
+  if(drawn.length>0 && getApiKey()){
+    showOcrStatus(`Reconociendo trazos (0/${drawn.length})…`);
+    for(let i=0;i<drawn.length;i++){
+      const item=drawn[i];
+      showOcrStatus(`Reconociendo trazo ${i+1} de ${drawn.length}…`);
+      const text=await ocrCanvas(item.imageData);
+      ocrMap[item.key]=text;
+    }
+    hideOcrStatus();
+  }
+
+  // --- Step 2: Build final answers merging text inputs + OCR ---
+  function getFinalAnswer(q){
+    const m=getMode(q.id);
+    if(m!=='draw') return getAnswer(q);
+
+    // Multi-sub: collect OCR for each sub-canvas
+    const subs=[];
+    for(let i=0;i<10;i++){
+      const k=String(q.id)+'_'+i;
+      if(document.getElementById('cv_'+k)){
+        subs.push(ocrMap[k]||'');
+      } else break;
+    }
+    if(subs.length>0) return subs.join(',');
+
+    // Single canvas
+    const k=String(q.id);
+    return ocrMap[k]||'';
+  }
+
+  // --- Step 3: Evaluate ---
+  let correct=0;
+  const results=exam.map(q=>{
+    const ans=getFinalAnswer(q);
+    const ok=checkAns(q,ans);
+    if(ok) correct++;
+    return{id:q.id,ok,ans,expected:q.expected,hint:q.hint};
+  });
+
+  lastResults=results;
+  markResultsData(results);
+
+  const pct=Math.round(correct/20*100);
+  $('sc-em').textContent=pct>=90?'🌟':pct>=70?'😊':pct>=50?'💪':'📚';
+  $('sc-num').textContent=correct+'/20';
+  $('sc-pct').textContent=pct+'% de respuestas correctas';
+  $('sc-msg').textContent=pct>=90?'¡Excelente trabajo! 🎉':pct>=70?'¡Muy bien, sigue practicando!':pct>=50?'¡Vas bien, no te rindas!':'Repasa los temas y vuelve a intentar.';
+  $('score-panel').style.display='block';
+  $('score-panel').scrollIntoView({behavior:'smooth',block:'start'});
+  $('submit-row').style.display='none';
+}
+
+let lastResults=[];
+function markResults(){if(lastResults.length) markResultsData(lastResults);}
+
+// Init on load
+refreshDrawButtons();
+function markResultsData(results){
+  results.forEach(r=>{
+    const card=document.getElementById('card-'+r.id);if(!card)return;
+    card.classList.remove('correct','wrong');card.classList.add(r.ok?'correct':'wrong');
+    const body=card.querySelector('.q-body');
+    body.querySelectorAll('.res-badge,.res-correct,.res-explain,.res-read').forEach(e=>e.remove());
+    const badge=document.createElement('div');badge.className='res-badge '+(r.ok?'ok':'bad');badge.innerHTML=r.ok?'✓ Correcto':'✗ Incorrecto';body.appendChild(badge);
+    // Show what was recognized from the drawing
+    if(r.ans && r.ans!=='' && !r.ans.includes('[trazo')){
+      const rd=document.createElement('div');rd.className='res-read';
+      rd.style.cssText='margin-top:6px;font-size:15px;color:#2a7de1;font-weight:700';
+      rd.textContent='🖊 Leído: '+r.ans;body.appendChild(rd);
+    }
+    if(!r.ok){
+      const ca=document.createElement('div');ca.className='res-correct';ca.textContent='✏️ Respuesta correcta: '+r.expected;body.appendChild(ca);
+      if(r.hint){const ex=document.createElement('div');ex.className='res-explain';ex.textContent='💡 '+r.hint;body.appendChild(ex);}}
+  });
+}
+</script>
+</body>
+</html>
